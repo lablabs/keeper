@@ -3,7 +3,7 @@ reservation:
   # -- Whether reservation is enabled
   enabled: true
   # -- Reservation image configuration
-  image: registry.k8s.io/pause:3.9 # latest doesn't work on arm
+  image: registry.k8s.io/pause:3.9  # latest doesn't work on arm
   # -- Reservation image pull policy
   imagePullPolicy: Always
   # -- Map of reservation deployments
