@@ -23,7 +23,7 @@ spec:
       {{- if $.Values.overprovisioning.priorityClassOverride }}
       priorityClassName: {{ $.Values.overprovisioning.priorityClassOverride }}
       {{- else }}
-      priorityClassName: {{ include "keeper.fullname" $ }}
+      priorityClassName: {{ include "keeper.fullname" $ }}-op
       {{- end }}
       containers:
         - name: overprovisioning
