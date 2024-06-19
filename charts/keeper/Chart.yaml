@@ -1,6 +1,6 @@
 apiVersion: v2
 name: keeper
-description: Helm chart for capacity reservation
+description: Helm chart for capacity reservation and overprovisioning
 
 # A chart can be either an 'application' or a 'library' chart.
 #

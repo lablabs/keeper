@@ -11,8 +11,9 @@ reservation:
 #    default:
 #      replicas: 1
 #      nodeSelector: |
-#        bla: bla
+#        node.kubernetes.io/instance-type: c5d.xlarge
 #      schedule:
+#        timeZone: Etc/UTC
 #        up:
 #          cron: "0 8 * * 1-5"
 #          replicas: 1
@@ -36,11 +37,12 @@ overprovisioning:
   deployments:
 #    default:
 #      replicas: 1
-#      cpu: 1m
-#      memory: 1Mi
+#      cpu: 100m
+#      memory: 500Mi
 #      nodeSelector: |
-#        bla: bla
+#        node: label
 #      schedule:
+#        timeZone: Etc/UTC
 #        up:
 #          cron: "0 8 * * 1-5"
 #          replicas: 1
