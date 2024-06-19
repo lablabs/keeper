@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "keeper.labels" $ | nindent 8 }}
+        {{- include "keeper.overprovisioning.labels" $ | nindent 8 }}
         app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}
     spec:
       automountServiceAccountToken: false

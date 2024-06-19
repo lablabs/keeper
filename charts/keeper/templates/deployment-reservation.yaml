@@ -7,22 +7,17 @@ metadata:
   labels:
     {{- include "keeper.labels" $ | nindent 4 }}
     app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
-    app.kubernetes.io/instance: {{ $.Release.Name }}
-    app.kubernetes.io/component: reservation
 spec:
   replicas: {{ $v.replicas }}
   selector:
     matchLabels:
+      {{- include "keeper.reservation.selectorLabels" $ | nindent 4 }}
       app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
-      app.kubernetes.io/instance: {{ $.Release.Name }}
-      app.kubernetes.io/component: reservation
   template:
     metadata:
       labels:
-        {{- include "keeper.labels" $ | nindent 8 }}
+        {{- include "keeper.reservation.labels" $ | nindent 8 }}
         app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
-        app.kubernetes.io/instance: {{ $.Release.Name }}
-        app.kubernetes.io/component: reservation
     spec:
       automountServiceAccountToken: false
       containers:
