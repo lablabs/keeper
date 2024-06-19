@@ -2,8 +2,6 @@ reservation:
   deployments:
     default:
       replicas: 1
-      nodeSelector: |
-        node: reservation
       schedule:
         up:
           cron: "0 8 * * 1-5"
@@ -18,8 +16,6 @@ overprovisioning:
       replicas: 1
       cpu: 50m
       memory: 100Mi
-      nodeSelector: |
-        node: overprovisioning
       schedule:
         up:
           cron: "0 8 * * 1-5"
