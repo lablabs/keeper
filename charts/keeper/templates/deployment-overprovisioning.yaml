@@ -11,7 +11,7 @@ spec:
   replicas: {{ $v.replicas }}
   selector:
     matchLabels:
-      {{- include "keeper.overprovisioning.selectorLabels" $ | nindent 4 }}
+      {{- include "keeper.overprovisioning.selectorLabels" $ | nindent 6 }}
       app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}
   template:
     metadata:
