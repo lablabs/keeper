@@ -1,3 +1,4 @@
+reservation:
   deployments:
     default:
       replicas: 1
