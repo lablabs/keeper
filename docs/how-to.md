@@ -1,12 +1,12 @@
 # How-to
 ## Initialize repo from template
 1. Create a repo from the template. Make sure to copy main and gh-pages branches.
-2. Replace <$chart-name> with your chart name in the main and gh-pages branches.
-3. Place your chart in ./charts/<$chart-name> directory.
+2. Replace keeper with your chart name in the main and gh-pages branches.
+3. Place your chart in ./charts/keeper directory.
    1. Modify Chart.yaml accordingly!!!
-4. Place custom values for the chart tests in ./charts/<$chart-name>/ci/<$bla>-values.yaml.
+4. Place custom values for the chart tests in ./charts/keeper/ci/<$bla>-values.yaml.
 5. **Important**: If your chart contains custom resources, make sure CRDs or any other dependencies are installed in Kind cluster created in the `helm-lint-test.yaml` workflow.
-6. If you want to use [helm-docs](https://github.com/norwoodj/helm-docs) to generate your Helm chart documentation, modify the contents of ./charts/<$chart-name>/README.md.gotmpl file. helm-docs will use the file to generate ./charts/<$chart-name>/README.md.
+6. If you want to use [helm-docs](https://github.com/norwoodj/helm-docs) to generate your Helm chart documentation, modify the contents of ./charts/keeper/README.md.gotmpl file. helm-docs will use the file to generate ./charts/keeper/README.md.
 Otherwise, remove helm-docs from pre-commit and you can modify the root README.md or chart README.md by hand.
 
 ## Releasing a chart

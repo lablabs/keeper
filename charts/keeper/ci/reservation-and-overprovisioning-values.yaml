@@ -1,0 +1,45 @@
+reservation:
+  # -- Whether reservation is enabled
+  enabled: true
+  # -- Each replica reserves one node
+  replicas: 1
+  # -- Reservation image configuration
+  image: registry.k8s.io/pause:3.9 # latest doesn't work on arm
+  imagePullPolicy: Always
+  deployments:
+    default:
+      replicas: 1
+      nodeSelector: |
+        node: label
+      schedule:
+        up:
+          cron: "0 8 * * 1-5"
+          replicas: 1
+        down:
+          cron: "0 17 * * 1-5"
+          replicas: 0
+
+overprovisioning:
+  enabled: true
+  priorityClass:
+    create: true
+    value: "-1000000"
+  priorityClassOverride: ""
+  deployments:
+    default:
+      replicas: 1
+      cpu: 1m
+      memory: 1Mi
+      nodeSelector: |
+        node: label
+      schedule:
+        up:
+          cron: "0 8 * * 1-5"
+          replicas: 1
+        down:
+          cron: "0 17 * * 1-5"
+          replicas: 0
+  # -- Overprovisioning image configuration
+  image: registry.k8s.io/pause:latest
+  # -- Overprovisioning image configuration
+  imagePullPolicy: Always

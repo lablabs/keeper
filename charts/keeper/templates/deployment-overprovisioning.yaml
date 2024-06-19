@@ -1,0 +1,57 @@
+{{- range $k, $v := .Values.overprovisioning.deployments }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "keeper.fullname" $ }}-op-{{ $k }}
+  labels:
+    {{- include "keeper.overprovisioning.labels" $ | nindent 4 }}
+    app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}
+spec:
+  replicas: {{ $v.replicas }}
+  selector:
+    matchLabels:
+      {{- include "keeper.overprovisioning.selectorLabels" $ | nindent 4 }}
+      app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}
+  template:
+    metadata:
+      labels:
+        {{ include "keeper.labels" $ | nindent 8 }}
+        app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}
+    spec:
+      automountServiceAccountToken: false
+      {{- if $.Values.overprovisioning.priorityClassOverride }}
+      priorityClassName: {{ $.Values.overprovisioning.priorityClassOverride }}
+      {{- else }}
+      priorityClassName: {{ include "keeper.fullname" $ }}
+      {{- end }}
+      containers:
+        - name: overprovisioning
+          image: {{ $.Values.overprovisioning.image }}
+          imagePullPolicy: {{ $.Values.overprovisioning.imagePullPolicy }}
+          resources:
+            requests:
+              cpu: {{ $v.cpu }}
+              memory: {{ $v.memory }}
+      {{- with $v.nodeSelector }}
+      nodeSelector:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "keeper.overprovisioning.selectorLabels" $ | nindent 20 }}
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      {{- with $v.tolerations }}
+      tolerations:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with $v.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+{{- end }}

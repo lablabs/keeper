@@ -1,0 +1,62 @@
+{{- range $k, $v := .Values.reservation.deployments }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "keeper.fullname" $ }}-rsrv-{{ $k }}
+  labels:
+    {{- include "keeper.labels" $ | nindent 4 }}
+    app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    app.kubernetes.io/component: reservation
+spec:
+  replicas: {{ $v.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
+      app.kubernetes.io/instance: {{ $.Release.Name }}
+      app.kubernetes.io/component: reservation
+  template:
+    metadata:
+      labels:
+        {{ include "keeper.labels" $ | nindent 8 }}
+        app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+        app.kubernetes.io/component: reservation
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: reservation
+          image: {{ $.Values.reservation.image }}
+          imagePullPolicy: {{ $.Values.reservation.imagePullPolicy }}
+          resources:
+            requests:
+              cpu: "1m"
+              memory: "1Mi"
+      {{- with $v.nodeSelector }}
+      nodeSelector:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "keeper.reservation.selectorLabels" $ | nindent 20 }}
+                topologyKey: topology.kubernetes.io/zone
+              weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  {{- include "keeper.reservation.selectorLabels" $ | nindent 18 }}
+              topologyKey: kubernetes.io/hostname
+      {{- with $v.tolerations }}
+      tolerations:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with $v.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+{{- end }}
