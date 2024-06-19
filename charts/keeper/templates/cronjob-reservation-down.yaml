@@ -6,7 +6,7 @@ kind: CronJob
 metadata:
   name: {{ include "keeper.fullname" $ }}-rsrv-{{ $k }}-down
 spec:
-  {{- if $v.schedule.timeZone | quote }}
+  {{- if $v.schedule.timeZone }}
   timeZone: {{ $v.schedule.timeZone }}
   {{- end }}
   schedule: {{ $v.schedule.down.cron | quote }}
