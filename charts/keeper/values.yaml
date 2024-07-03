@@ -7,7 +7,7 @@ reservation:
   # -- Reservation image pull policy
   imagePullPolicy: Always
   # -- Map of reservation deployments
-  deployments:
+  map:
 #    default:
 #      replicas: 1
 #      nodeSelector: |
@@ -34,7 +34,7 @@ overprovisioning:
   # -- Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass
   priorityClassOverride: ""
   # -- Map of overprovisioning deployments
-  deployments:
+  map:
 #    default:
 #      replicas: 1
 #      cpu: 100m

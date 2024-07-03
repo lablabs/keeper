@@ -1,4 +1,4 @@
-{{- range $k, $v := .Values.reservation.deployments }}
+{{- range $k, $v := .Values.reservation.map }}
 {{- if $v.schedule }}
 ---
 apiVersion: batch/v1

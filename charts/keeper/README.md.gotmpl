@@ -6,7 +6,7 @@
 
 ## About
 Keeper Helm chart. Deploys reservation and overprovisioning pods with optional schedules:
-- **reservation**: Deploys lightweight pods that keep alive nodes specified in nodeSelector. Reservation relies on the ability to specify node size and resources in node labels, able to keep alive a node with certain size and properties. Each reservation pod keeps alive one node.
+- **reservation**: Deploys lightweight pods that keep alive nodes specified in nodeSelector. Reservation relies on the ability to specify node size and resources in node labels, able to keep alive a node with certain size and properties. Each reservation pod keeps alive one node. Reservation affinity currently cannot be overridden.
 - **overprovisioning**: Adds overprovisioning pods to the cluster. Size and number of overprovisioning pods can be modified. If real workload needs the resources occupied by an overprovisioning pod, the overprovisioning pod is evicted and if no free capacity is available, should trigger scaleup of a new node for the overprovisioning pod.
 
 ## Examples
@@ -14,7 +14,7 @@ Keeper Helm chart. Deploys reservation and overprovisioning pods with optional s
 The following values deploy 2 reservation deployments. `default` reserves 1 node of type c5d.xlarge, that is scaled to 1 Monday-Friday between 8-17 (Bratislava timeZone), and scaled down in the meantime. `unscheduled` reserves 2 nodes of type t3.large with no scheduled scaling.
 ```yaml
 reservation:
-  deployments:
+  map:
     default:
       replicas: 1
       nodeSelector: |
@@ -36,7 +36,7 @@ reservation:
 The following values deploy 1 overprovisioning deployment with 3 replicas which reserve 100 millicores and 500Mi of memory each. The deployment is scheduled Monday-Friday between 8-17. The replicas will be scheduled on any node available, and be evicted if real workload requires the capacity.
 ```yaml
 overprovisioning:
-  deployments:
+  map:
     default:
       replicas: 3
       cpu: 100m

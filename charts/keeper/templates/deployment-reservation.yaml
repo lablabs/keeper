@@ -1,4 +1,4 @@
-{{- range $k, $v := .Values.reservation.deployments }}
+{{- range $k, $v := .Values.reservation.map }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -34,13 +34,6 @@ spec:
       {{- end }}
       affinity:
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    {{- include "keeper.reservation.selectorLabels" $ | nindent 20 }}
-                topologyKey: topology.kubernetes.io/zone
-              weight: 100
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:

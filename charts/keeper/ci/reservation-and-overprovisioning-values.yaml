@@ -1,5 +1,5 @@
 reservation:
-  deployments:
+  map:
     default:
       replicas: 1
 #      nodeSelector: |
@@ -18,7 +18,7 @@ reservation:
 #        node.kubernetes.io/instance-type: t3.large
 
 overprovisioning:
-  deployments:
+  map:
     default:
       replicas: 1
       schedule:

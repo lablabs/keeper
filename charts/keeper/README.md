@@ -6,7 +6,7 @@ Helm chart for capacity reservation and overprovisioning
 
 ## About
 Keeper Helm chart. Deploys reservation and overprovisioning pods with optional schedules:
-- **reservation**: Deploys lightweight pods that keep alive nodes specified in nodeSelector. Reservation relies on the ability to specify node size and resources in node labels, able to keep alive a node with certain size and properties. Each reservation pod keeps alive one node.
+- **reservation**: Deploys lightweight pods that keep alive nodes specified in nodeSelector. Reservation relies on the ability to specify node size and resources in node labels, able to keep alive a node with certain size and properties. Each reservation pod keeps alive one node. Reservation affinity currently cannot be overridden.
 - **overprovisioning**: Adds overprovisioning pods to the cluster. Size and number of overprovisioning pods can be modified. If real workload needs the resources occupied by an overprovisioning pod, the overprovisioning pod is evicted and if no free capacity is available, should trigger scaleup of a new node for the overprovisioning pod.
 
 ## Examples
@@ -14,7 +14,7 @@ Keeper Helm chart. Deploys reservation and overprovisioning pods with optional s
 The following values deploy 2 reservation deployments. `default` reserves 1 node of type c5d.xlarge, that is scaled to 1 Monday-Friday between 8-17 (Bratislava timeZone), and scaled down in the meantime. `unscheduled` reserves 2 nodes of type t3.large with no scheduled scaling.
 ```yaml
 reservation:
-  deployments:
+  map:
     default:
       replicas: 1
       nodeSelector: |
@@ -36,7 +36,7 @@ reservation:
 The following values deploy 1 overprovisioning deployment with 3 replicas which reserve 100 millicores and 500Mi of memory each. The deployment is scheduled Monday-Friday between 8-17. The replicas will be scheduled on any node available, and be evicted if real workload requires the capacity.
 ```yaml
 overprovisioning:
-  deployments:
+  map:
     default:
       replicas: 3
       cpu: 100m
@@ -54,20 +54,20 @@ overprovisioning:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| overprovisioning | object | `{"deployments":null,"enabled":true,"image":"registry.k8s.io/pause:latest","imagePullPolicy":"Always","priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":""}` | Overprovisioning configuration |
-| overprovisioning.deployments | string | `nil` | Map of overprovisioning deployments |
+| overprovisioning | object | `{"enabled":true,"image":"registry.k8s.io/pause:latest","imagePullPolicy":"Always","map":null,"priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":""}` | Overprovisioning configuration |
 | overprovisioning.enabled | bool | `true` | Whether overprovisioning is enabled |
 | overprovisioning.image | string | `"registry.k8s.io/pause:latest"` | Overprovisioning image configuration |
 | overprovisioning.imagePullPolicy | string | `"Always"` | Overprovisioning imagePullPolicy configuration |
+| overprovisioning.map | string | `nil` | Map of overprovisioning deployments |
 | overprovisioning.priorityClass | object | `{"create":true,"value":"-1000000"}` | Overprovisioning priorityClass configuration |
 | overprovisioning.priorityClass.create | bool | `true` | Whether to create overprovisioning priorityClass |
 | overprovisioning.priorityClass.value | string | `"-1000000"` | Overprovisioning priorityClass priority |
 | overprovisioning.priorityClassOverride | string | `""` | Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass |
-| reservation | object | `{"deployments":null,"enabled":true,"image":"registry.k8s.io/pause:3.9","imagePullPolicy":"Always"}` | Reservation configuration |
-| reservation.deployments | string | `nil` | Map of reservation deployments |
+| reservation | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.9","imagePullPolicy":"Always","map":null}` | Reservation configuration |
 | reservation.enabled | bool | `true` | Whether reservation is enabled |
 | reservation.image | string | `"registry.k8s.io/pause:3.9"` | Reservation image configuration |
 | reservation.imagePullPolicy | string | `"Always"` | Reservation image pull policy |
+| reservation.map | string | `nil` | Map of reservation deployments |
 | schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"bitnami/kubectl:latest","imagePullPolicy":"Always","resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule |
 | schedule.concurrencyPolicy | string | `"Replace"` | Concurrency policy https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#concurrency-policy |
 | schedule.failedJobsHistoryLimit | int | `1` | Number of failed Jobs to keep |

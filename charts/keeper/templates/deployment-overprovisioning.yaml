@@ -1,4 +1,4 @@
-{{- range $k, $v := .Values.overprovisioning.deployments }}
+{{- range $k, $v := .Values.overprovisioning.map }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -37,15 +37,10 @@ spec:
       nodeSelector:
         {{- tpl . $ | nindent 8 }}
       {{- end }}
+      {{- with $v.affinity }}
       affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    {{- include "keeper.overprovisioning.selectorLabels" $ | nindent 20 }}
-                topologyKey: kubernetes.io/hostname
-              weight: 100
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       {{- with $v.tolerations }}
       tolerations:
         {{- tpl . $ | nindent 8 }}

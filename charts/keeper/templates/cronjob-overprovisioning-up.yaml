@@ -1,4 +1,4 @@
-{{- range $k, $v := .Values.overprovisioning.deployments }}
+{{- range $k, $v := .Values.overprovisioning.map }}
 {{- if $v.schedule }}
 ---
 apiVersion: batch/v1
