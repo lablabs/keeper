@@ -1,0 +1,30 @@
+reservation:
+  map:
+    default:
+      replicas: 1
+#      nodeSelector: |
+#        node.kubernetes.io/instance-type: c5d.xlarge
+      schedule:
+        timeZone: Europe/Bratislava
+        up:
+          cron: "0 8 * * 1-5"
+          replicas: 1
+        down:
+          cron: "0 17 * * 1-5"
+          replicas: 0
+#    unscheduled:
+#      replicas: 1
+#      nodeSelector: |
+#        node.kubernetes.io/instance-type: t3.large
+
+overprovisioning:
+  map:
+    default:
+      replicas: 1
+      schedule:
+        up:
+          cron: "0 8 * * 1-5"
+          replicas: 1
+        down:
+          cron: "0 17 * * 1-5"
+          replicas: 0

@@ -1,4 +1,4 @@
-# <$chart-name> Helm chart
+# keeper Helm chart
 
 [<img src="https://lablabs.io/static/ll-logo.png" width=350px>](https://lablabs.io/)
 
@@ -7,9 +7,9 @@ We help companies build, run, deploy and scale software and infrastructure by em
 ---
 
 ## Description
-<$chart-name> Helm chart.
+keeper Helm chart.
 
-Check out [charts/<$chart-name>/README.md](charts/<$chart-name>/README.md) for more details about the chart.
+Check out [charts/keeper/README.md](charts/keeper/README.md) for more details about the chart.
 
 ## Contributing and reporting issues
 Feel free to create an issue in this repository if you have questions, suggestions or feature requests.

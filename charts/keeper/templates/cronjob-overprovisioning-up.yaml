@@ -1,0 +1,55 @@
+{{- range $k, $v := .Values.overprovisioning.map }}
+{{- if $v.schedule }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "keeper.fullname" $ }}-op-{{ $k }}-up
+spec:
+  {{- if $v.schedule.timeZone }}
+  timeZone: {{ $v.schedule.timeZone }}
+  {{- end }}
+  schedule: {{ $v.schedule.up.cron | quote }}
+  successfulJobsHistoryLimit: {{ $v.schedule.successfulJobsHistoryLimit | default $.Values.schedule.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ $v.schedule.failedJobsHistoryLimit | default $.Values.schedule.failedJobsHistoryLimit }}
+  concurrencyPolicy: {{ $v.schedule.concurrencyPolicy | default $.Values.schedule.concurrencyPolicy }}
+  suspend: {{ $v.schedule.up.suspend | default "false" }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            {{- include "keeper.schedule.labels" $ | nindent 12 }}
+            app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}-up
+        spec:
+          serviceAccountName: {{ include "keeper.serviceAccountName" $ }}
+          containers:
+          - name: schedule
+            image: {{ $.Values.schedule.image }}
+            imagePullPolicy: {{ $.Values.schedule.imagePullPolicy }}
+            command:
+              - /bin/sh
+              - -c
+            args:
+              - kubectl scale --replicas={{ $v.schedule.up.replicas }} deployment/{{ include "keeper.fullname" $ }}-op-{{ $k }} --namespace {{ $.Release.Namespace }}
+            resources:
+              {{- toYaml $.Values.schedule.resources | nindent 14 }}
+          restartPolicy: OnFailure
+          {{- with $.Values.schedule.nodeSelector }}
+          nodeSelector:
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.schedule.affinity }}
+          affinity:
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.schedule.tolerations }}
+          tolerations:
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.schedule.topologySpreadConstraints }}
+          topologySpreadConstraints:
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
+{{- end }}
+{{- end }}

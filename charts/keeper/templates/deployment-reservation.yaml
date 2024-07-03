@@ -1,0 +1,50 @@
+{{- range $k, $v := .Values.reservation.map }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "keeper.fullname" $ }}-rsrv-{{ $k }}
+  labels:
+    {{- include "keeper.labels" $ | nindent 4 }}
+    app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
+spec:
+  replicas: {{ $v.replicas }}
+  selector:
+    matchLabels:
+      {{- include "keeper.reservation.selectorLabels" $ | nindent 6 }}
+      app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
+  template:
+    metadata:
+      labels:
+        {{- include "keeper.reservation.labels" $ | nindent 8 }}
+        app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: reservation
+          image: {{ $.Values.reservation.image }}
+          imagePullPolicy: {{ $.Values.reservation.imagePullPolicy }}
+          resources:
+            requests:
+              cpu: "1m"
+              memory: "1Mi"
+      {{- with $v.nodeSelector }}
+      nodeSelector:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  {{- include "keeper.reservation.selectorLabels" $ | nindent 18 }}
+              topologyKey: kubernetes.io/hostname
+      {{- with $v.tolerations }}
+      tolerations:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with $v.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+{{- end }}

@@ -1,0 +1,87 @@
+# -- Reservation configuration
+reservation:
+  # -- Whether reservation is enabled
+  enabled: true
+  # -- Reservation image configuration
+  image: registry.k8s.io/pause:3.9  # latest doesn't work on arm
+  # -- Reservation image pull policy
+  imagePullPolicy: Always
+  # -- Map of reservation deployments
+  map:
+#    default:
+#      replicas: 1
+#      nodeSelector: |
+#        node.kubernetes.io/instance-type: c5d.xlarge
+#      schedule:
+#        timeZone: Etc/UTC
+#        up:
+#          cron: "0 8 * * 1-5"
+#          replicas: 1
+#        down:
+#          cron: "0 17 * * 1-5"
+#          replicas: 0
+
+# -- Overprovisioning configuration
+overprovisioning:
+  # -- Whether overprovisioning is enabled
+  enabled: true
+  # -- Overprovisioning priorityClass configuration
+  priorityClass:
+    # -- Whether to create overprovisioning priorityClass
+    create: true
+    # -- Overprovisioning priorityClass priority
+    value: "-1000000"
+  # -- Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass
+  priorityClassOverride: ""
+  # -- Map of overprovisioning deployments
+  map:
+#    default:
+#      replicas: 1
+#      cpu: 100m
+#      memory: 500Mi
+#      nodeSelector: |
+#        node: label
+#      schedule:
+#        timeZone: Etc/UTC
+#        up:
+#          cron: "0 8 * * 1-5"
+#          replicas: 1
+#        down:
+#          cron: "0 17 * * 1-5"
+#          replicas: 0
+  # -- Overprovisioning image configuration
+  image: registry.k8s.io/pause:latest
+  # -- Overprovisioning imagePullPolicy configuration
+  imagePullPolicy: Always
+
+# -- Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule
+schedule:
+   # -- Schedule image configuration
+  image: bitnami/kubectl:latest
+  # -- Schedule image imagePullPolicy
+  imagePullPolicy: Always
+  # -- Schedule resources
+  resources:
+    # -- Schedule resource requests
+    requests:
+      # -- Schedule cpu request
+      cpu: 10m
+      # -- Schedule memory request
+      memory: 32Mi
+  # -- Number of successful Jobs to keep
+  successfulJobsHistoryLimit: 1
+  # -- Number of failed Jobs to keep
+  failedJobsHistoryLimit: 1
+  # -- Concurrency policy https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#concurrency-policy
+  concurrencyPolicy: Replace
+  # -- Set to true to suspend the CronJob
+  suspend: false
+
+# -- Service Account, ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+serviceAccount:
+  # -- Specifies whether a ServiceAccount should be created
+  create: true
+  # -- Annotations for service account. Evaluated as a template. Only used if `create` is `true`.
+  annotations: {}
+  # -- Name of the service account to use. If not set and create is true, a name is generated using the fullname template.
+  name: ""
