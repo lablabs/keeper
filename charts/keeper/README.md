@@ -68,7 +68,7 @@ overprovisioning:
 | reservation.image | string | `"registry.k8s.io/pause:3.9"` | Reservation image configuration |
 | reservation.imagePullPolicy | string | `"Always"` | Reservation image pull policy |
 | reservation.map | object | `{}` | Map of reservation deployments |
-| schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"ghcr.io/lablabs/kubectl:latest","imagePullPolicy":"Always","resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule |
+| schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"ghcr.io/lablabs/kubectl:latest","imagePullPolicy":"Always","rbac":{"rules":[{"apiGroups":["apps"],"resources":["deployments"],"verbs":["get"]},{"apiGroups":["apps"],"resources":["deployments/scale"],"verbs":["get","watch","list","patch"]}]},"resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule |
 | schedule.concurrencyPolicy | string | `"Replace"` | Concurrency policy https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#concurrency-policy |
 | schedule.failedJobsHistoryLimit | int | `1` | Number of failed Jobs to keep |
 | schedule.image | string | `"ghcr.io/lablabs/kubectl:latest"` | Schedule image configuration |
