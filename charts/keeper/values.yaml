@@ -7,7 +7,7 @@ reservation:
   # -- Reservation image pull policy
   imagePullPolicy: Always
   # -- Map of reservation deployments
-  map:
+  map: {}
 #    default:
 #      replicas: 1
 #      nodeSelector: |
@@ -34,7 +34,7 @@ overprovisioning:
   # -- Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass
   priorityClassOverride: ""
   # -- Map of overprovisioning deployments
-  map:
+  map: {}
 #    default:
 #      replicas: 1
 #      cpu: 100m
@@ -57,7 +57,7 @@ overprovisioning:
 # -- Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule
 schedule:
    # -- Schedule image configuration
-  image: bitnami/kubectl:latest
+  image: ghcr.io/lablabs/kubectl:latest
   # -- Schedule image imagePullPolicy
   imagePullPolicy: Always
   # -- Schedule resources
