@@ -20,6 +20,14 @@ reservation:
 #        down:
 #          cron: "0 17 * * 1-5"
 #          replicas: 0
+  # -- Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
 
 # -- Overprovisioning configuration
 overprovisioning:
@@ -53,6 +61,13 @@ overprovisioning:
   image: registry.k8s.io/pause:latest
   # -- Overprovisioning imagePullPolicy configuration
   imagePullPolicy: Always
+  # -- Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
 # -- Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule
 schedule:
@@ -76,6 +91,13 @@ schedule:
   concurrencyPolicy: Replace
   # -- Set to true to suspend the CronJob
   suspend: false
+  # -- Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
 # -- Service Account, ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
 serviceAccount:

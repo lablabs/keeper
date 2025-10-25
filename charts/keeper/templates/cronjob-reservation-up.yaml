@@ -27,6 +27,8 @@ spec:
           - name: schedule
             image: {{ $.Values.schedule.image }}
             imagePullPolicy: {{ $.Values.schedule.imagePullPolicy }}
+            securityContext:
+              {{- toYaml $.Values.schedule.securityContext | nindent 14 }}
             command:
               - /bin/sh
               - -c

@@ -29,6 +29,8 @@ spec:
         - name: overprovisioning
           image: {{ $.Values.overprovisioning.image }}
           imagePullPolicy: {{ $.Values.overprovisioning.imagePullPolicy }}
+          securityContext:
+            {{- toYaml $.Values.overprovisioning.securityContext | nindent 12 }}
           resources:
             requests:
               cpu: {{ $v.cpu }}

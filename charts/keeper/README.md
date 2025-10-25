@@ -54,7 +54,7 @@ overprovisioning:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| overprovisioning | object | `{"enabled":true,"image":"registry.k8s.io/pause:latest","imagePullPolicy":"Always","map":{},"priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":""}` | Overprovisioning configuration |
+| overprovisioning | object | `{"enabled":true,"image":"registry.k8s.io/pause:latest","imagePullPolicy":"Always","map":{},"priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":"","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Overprovisioning configuration |
 | overprovisioning.enabled | bool | `true` | Whether overprovisioning is enabled |
 | overprovisioning.image | string | `"registry.k8s.io/pause:latest"` | Overprovisioning image configuration |
 | overprovisioning.imagePullPolicy | string | `"Always"` | Overprovisioning imagePullPolicy configuration |
@@ -63,12 +63,14 @@ overprovisioning:
 | overprovisioning.priorityClass.create | bool | `true` | Whether to create overprovisioning priorityClass |
 | overprovisioning.priorityClass.value | string | `"-1000000"` | Overprovisioning priorityClass priority |
 | overprovisioning.priorityClassOverride | string | `""` | Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass |
-| reservation | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.9","imagePullPolicy":"Always","map":{}}` | Reservation configuration |
+| overprovisioning.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
+| reservation | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.9","imagePullPolicy":"Always","map":{},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Reservation configuration |
 | reservation.enabled | bool | `true` | Whether reservation is enabled |
 | reservation.image | string | `"registry.k8s.io/pause:3.9"` | Reservation image configuration |
 | reservation.imagePullPolicy | string | `"Always"` | Reservation image pull policy |
 | reservation.map | object | `{}` | Map of reservation deployments |
-| schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"ghcr.io/lablabs/kubectl:latest","imagePullPolicy":"Always","rbac":{"rules":[{"apiGroups":["apps"],"resources":["deployments"],"verbs":["get"]},{"apiGroups":["apps"],"resources":["deployments/scale"],"verbs":["get","watch","list","patch"]}]},"resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule |
+| reservation.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
+| schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"ghcr.io/lablabs/kubectl:latest","imagePullPolicy":"Always","resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule |
 | schedule.concurrencyPolicy | string | `"Replace"` | Concurrency policy https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#concurrency-policy |
 | schedule.failedJobsHistoryLimit | int | `1` | Number of failed Jobs to keep |
 | schedule.image | string | `"ghcr.io/lablabs/kubectl:latest"` | Schedule image configuration |
@@ -77,6 +79,7 @@ overprovisioning:
 | schedule.resources.requests | object | `{"cpu":"10m","memory":"32Mi"}` | Schedule resource requests |
 | schedule.resources.requests.cpu | string | `"10m"` | Schedule cpu request |
 | schedule.resources.requests.memory | string | `"32Mi"` | Schedule memory request |
+| schedule.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
 | schedule.successfulJobsHistoryLimit | int | `1` | Number of successful Jobs to keep |
 | schedule.suspend | bool | `false` | Set to true to suspend the CronJob |
 | serviceAccount | object | `{"annotations":{},"create":true,"name":""}` | Service Account, ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/ |

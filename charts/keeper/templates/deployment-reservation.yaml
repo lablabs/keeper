@@ -24,6 +24,8 @@ spec:
         - name: reservation
           image: {{ $.Values.reservation.image }}
           imagePullPolicy: {{ $.Values.reservation.imagePullPolicy }}
+          securityContext:
+            {{- toYaml $.Values.reservation.securityContext | nindent 12 }}
           resources:
             requests:
               cpu: "1m"
