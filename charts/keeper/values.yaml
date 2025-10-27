@@ -3,7 +3,7 @@ reservation:
   # -- Whether reservation is enabled
   enabled: true
   # -- Reservation image configuration
-  image: registry.k8s.io/pause:3.9  # latest doesn't work on arm
+  image: registry.k8s.io/pause:3.10.1  # latest doesn't work on arm
   # -- Reservation image pull policy
   imagePullPolicy: Always
   # -- Map of reservation deployments
@@ -58,7 +58,7 @@ overprovisioning:
 #          cron: "0 17 * * 1-5"
 #          replicas: 0
   # -- Overprovisioning image configuration
-  image: registry.k8s.io/pause:3.9
+  image: registry.k8s.io/pause:3.10.1 # latest doesn't work on arm
   # -- Overprovisioning imagePullPolicy configuration
   imagePullPolicy: Always
   # -- Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod

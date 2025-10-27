@@ -54,9 +54,9 @@ overprovisioning:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| overprovisioning | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.9","imagePullPolicy":"Always","map":{},"priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":"","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Overprovisioning configuration |
+| overprovisioning | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.10.1","imagePullPolicy":"Always","map":{},"priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":"","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Overprovisioning configuration |
 | overprovisioning.enabled | bool | `true` | Whether overprovisioning is enabled |
-| overprovisioning.image | string | `"registry.k8s.io/pause:3.9"` | Overprovisioning image configuration |
+| overprovisioning.image | string | `"registry.k8s.io/pause:3.10.1"` | Overprovisioning image configuration |
 | overprovisioning.imagePullPolicy | string | `"Always"` | Overprovisioning imagePullPolicy configuration |
 | overprovisioning.map | object | `{}` | Map of overprovisioning deployments |
 | overprovisioning.priorityClass | object | `{"create":true,"value":"-1000000"}` | Overprovisioning priorityClass configuration |
@@ -64,9 +64,9 @@ overprovisioning:
 | overprovisioning.priorityClass.value | string | `"-1000000"` | Overprovisioning priorityClass priority |
 | overprovisioning.priorityClassOverride | string | `""` | Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass |
 | overprovisioning.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
-| reservation | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.9","imagePullPolicy":"Always","map":{},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Reservation configuration |
+| reservation | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.10.1","imagePullPolicy":"Always","map":{},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Reservation configuration |
 | reservation.enabled | bool | `true` | Whether reservation is enabled |
-| reservation.image | string | `"registry.k8s.io/pause:3.9"` | Reservation image configuration |
+| reservation.image | string | `"registry.k8s.io/pause:3.10.1"` | Reservation image configuration |
 | reservation.imagePullPolicy | string | `"Always"` | Reservation image pull policy |
 | reservation.map | object | `{}` | Map of reservation deployments |
 | reservation.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
