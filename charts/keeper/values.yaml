@@ -58,7 +58,7 @@ overprovisioning:
 #          cron: "0 17 * * 1-5"
 #          replicas: 0
   # -- Overprovisioning image configuration
-  image: registry.k8s.io/pause:latest
+  image: registry.k8s.io/pause:3.9
   # -- Overprovisioning imagePullPolicy configuration
   imagePullPolicy: Always
   # -- Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod

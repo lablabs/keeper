@@ -54,9 +54,9 @@ overprovisioning:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| overprovisioning | object | `{"enabled":true,"image":"registry.k8s.io/pause:latest","imagePullPolicy":"Always","map":{},"priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":"","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Overprovisioning configuration |
+| overprovisioning | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.9","imagePullPolicy":"Always","map":{},"priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":"","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Overprovisioning configuration |
 | overprovisioning.enabled | bool | `true` | Whether overprovisioning is enabled |
-| overprovisioning.image | string | `"registry.k8s.io/pause:latest"` | Overprovisioning image configuration |
+| overprovisioning.image | string | `"registry.k8s.io/pause:3.9"` | Overprovisioning image configuration |
 | overprovisioning.imagePullPolicy | string | `"Always"` | Overprovisioning imagePullPolicy configuration |
 | overprovisioning.map | object | `{}` | Map of overprovisioning deployments |
 | overprovisioning.priorityClass | object | `{"create":true,"value":"-1000000"}` | Overprovisioning priorityClass configuration |
