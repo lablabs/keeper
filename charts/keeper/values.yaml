@@ -1,3 +1,13 @@
+# -- String to partially override app.fullname template (will maintain the release name)
+nameOverride: ""
+# -- String to fully override app.fullname template
+fullnameOverride: ""
+
+# -- Pod labels, ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+# -- Common labels for all resources, ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+commonLabels: {}
+
 # -- Reservation configuration
 reservation:
   # -- Whether reservation is enabled
@@ -27,7 +37,6 @@ reservation:
     capabilities:
       drop:
         - ALL
-
 
 # -- Overprovisioning configuration
 overprovisioning:

@@ -5,6 +5,9 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ include "keeper.fullname" $ }}-op-{{ $k }}-up
+  labels:
+    {{- include "keeper.schedule.labels" $ | nindent 4 }}
+    app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}-up
 spec:
   {{- if $v.schedule.timeZone }}
   timeZone: {{ $v.schedule.timeZone }}
@@ -19,8 +22,11 @@ spec:
       template:
         metadata:
           labels:
-            {{- include "keeper.schedule.labels" $ | nindent 12 }}
+            {{- include "keeper.schedule.selectorLabels" $ | nindent 12 }}
             app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}-up
+            {{- with $.Values.podLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
         spec:
           serviceAccountName: {{ include "keeper.serviceAccountName" $ }}
           containers:

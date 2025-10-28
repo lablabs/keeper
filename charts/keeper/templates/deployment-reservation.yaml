@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: {{ include "keeper.fullname" $ }}-rsrv-{{ $k }}
   labels:
-    {{- include "keeper.labels" $ | nindent 4 }}
+    {{- include "keeper.reservation.labels" $ | nindent 4 }}
     app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
 spec:
   replicas: {{ $v.replicas }}
@@ -16,8 +16,11 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "keeper.reservation.labels" $ | nindent 8 }}
+        {{- include "keeper.reservation.selectorLabels" $ | nindent 8 }}
         app.kubernetes.io/name: {{ include "keeper.name" $ }}-rsrv-{{ $k }}
+        {{- with $.Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       automountServiceAccountToken: false
       containers:

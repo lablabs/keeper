@@ -16,8 +16,11 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "keeper.overprovisioning.labels" $ | nindent 8 }}
+        {{- include "keeper.overprovisioning.selectorLabels" $ | nindent 8 }}
         app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}
+        {{- with $.Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       automountServiceAccountToken: false
       {{- if $.Values.overprovisioning.priorityClassOverride }}

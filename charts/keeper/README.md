@@ -54,6 +54,9 @@ overprovisioning:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| commonLabels | object | `{}` | Common labels for all resources, ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
+| fullnameOverride | string | `""` | String to fully override app.fullname template |
+| nameOverride | string | `""` | String to partially override app.fullname template (will maintain the release name) |
 | overprovisioning | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.10.1","imagePullPolicy":"Always","map":{},"priorityClass":{"create":true,"value":"-1000000"},"priorityClassOverride":"","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Overprovisioning configuration |
 | overprovisioning.enabled | bool | `true` | Whether overprovisioning is enabled |
 | overprovisioning.image | string | `"registry.k8s.io/pause:3.10.1"` | Overprovisioning image configuration |
@@ -64,6 +67,7 @@ overprovisioning:
 | overprovisioning.priorityClass.value | string | `"-1000000"` | Overprovisioning priorityClass priority |
 | overprovisioning.priorityClassOverride | string | `""` | Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass |
 | overprovisioning.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
+| podLabels | object | `{}` | Pod labels, ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
 | reservation | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.10.1","imagePullPolicy":"Always","map":{},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Reservation configuration |
 | reservation.enabled | bool | `true` | Whether reservation is enabled |
 | reservation.image | string | `"registry.k8s.io/pause:3.10.1"` | Reservation image configuration |
