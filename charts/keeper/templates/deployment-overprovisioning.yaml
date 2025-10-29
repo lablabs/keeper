@@ -8,7 +8,9 @@ metadata:
     {{- include "keeper.overprovisioning.labels" $ | nindent 4 }}
     app.kubernetes.io/name: {{ include "keeper.name" $ }}-op-{{ $k }}
 spec:
+  {{- if not $v.schedule }}
   replicas: {{ $v.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "keeper.overprovisioning.selectorLabels" $ | nindent 6 }}
