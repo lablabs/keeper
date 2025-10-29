@@ -16,8 +16,8 @@ reservation:
   image: registry.k8s.io/pause:3.10.1  # latest doesn't work on arm
   # -- Reservation image pull policy
   imagePullPolicy: Always
-  # -- Map of reservation deployments
-  map: {}
+  # -- Map of reservation placeholder deployments
+  placeholders: {}
 #    default:
 #      replicas: 1
 #      nodeSelector: |
@@ -50,8 +50,8 @@ overprovisioning:
     value: "-1000000"
   # -- Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass
   priorityClassOverride: ""
-  # -- Map of overprovisioning deployments
-  map: {}
+  # -- Map of overprovisioning placeholder deployments
+  placeholders: {}
 #    default:
 #      replicas: 1
 #      cpu: 100m

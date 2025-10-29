@@ -11,7 +11,7 @@
 
 Helm chart for Keeper - node capacity reservation and overprovisioning.
 
-Keeper Helm chart. Deploys node reservation and overprovisioning pods with optional schedules:
+Deploys node reservation and overprovisioning pods with optional schedules:
 - **reservation**: Deploys lightweight pods that keep alive nodes specified in nodeSelector. Reservation relies on the ability to specify node size and resources in node labels, able to keep alive a node with certain size and properties. Each reservation pod keeps alive one node. Reservation affinity currently cannot be overridden.
 - **overprovisioning**: Deploys overprovisioning pods to the cluster. Size and number of overprovisioning pods can be modified. If real workload needs the resources occupied by an overprovisioning pod, the overprovisioning pod is evicted and if no free capacity is available, should trigger scaleup of a new node for the overprovisioning pod.
 
