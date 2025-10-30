@@ -4,6 +4,8 @@ description: Overprovisioning low-priority priority class
 kind: PriorityClass
 metadata:
   name: {{ include "keeper.fullname" . }}-op
+  labels:
+    {{- include "keeper.overprovisioning.labels" $ | nindent 4 }}
 preemptionPolicy: PreemptLowerPriority
 value: {{ .Values.overprovisioning.priorityClass.value }}
 {{- end }}
