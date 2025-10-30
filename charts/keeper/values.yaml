@@ -42,13 +42,13 @@ reservation:
 overprovisioning:
   # -- Whether overprovisioning is enabled
   enabled: true
-  # -- Overprovisioning priorityClass configuration
+  # -- Overprovisioning PriorityClass configuration
   priorityClass:
-    # -- Whether to create overprovisioning priorityClass
+    # -- Whether to create overprovisioning PriorityClass
     create: true
-    # -- Overprovisioning priorityClass priority
+    # -- Overprovisioning PriorityClass priority
     value: "-1000000"
-  # -- Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass
+  # -- Overprovisioning PriorityClass name, set to use instead of PriorityClass created via overprovisioning.priorityClass
   priorityClassOverride: ""
   # -- Map of overprovisioning placeholder deployments
   placeholders: {}

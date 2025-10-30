@@ -69,10 +69,10 @@ overprovisioning:
 | overprovisioning.image | string | `"registry.k8s.io/pause:3.10.1"` | Overprovisioning image configuration |
 | overprovisioning.imagePullPolicy | string | `"Always"` | Overprovisioning imagePullPolicy configuration |
 | overprovisioning.placeholders | object | `{}` | Map of overprovisioning placeholder deployments |
-| overprovisioning.priorityClass | object | `{"create":true,"value":"-1000000"}` | Overprovisioning priorityClass configuration |
-| overprovisioning.priorityClass.create | bool | `true` | Whether to create overprovisioning priorityClass |
-| overprovisioning.priorityClass.value | string | `"-1000000"` | Overprovisioning priorityClass priority |
-| overprovisioning.priorityClassOverride | string | `""` | Overprovisioning priorityClass name override, will be used instead of priorityClass created in overprovisioning.priorityClass |
+| overprovisioning.priorityClass | object | `{"create":true,"value":"-1000000"}` | Overprovisioning PriorityClass configuration |
+| overprovisioning.priorityClass.create | bool | `true` | Whether to create overprovisioning PriorityClass |
+| overprovisioning.priorityClass.value | string | `"-1000000"` | Overprovisioning PriorityClass priority |
+| overprovisioning.priorityClassOverride | string | `""` | Overprovisioning PriorityClass name, set to use instead of PriorityClass created via overprovisioning.priorityClass |
 | overprovisioning.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
 | podLabels | object | `{}` | Pod labels, ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
 | reservation | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.10.1","imagePullPolicy":"Always","placeholders":{},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Reservation configuration |
