@@ -1,4 +1,4 @@
-{{- range $k, $v := .Values.overprovisioning.map }}
+{{- range $k, $v := .Values.overprovisioning.placeholders }}
 ---
 apiVersion: apps/v1
 kind: Deployment

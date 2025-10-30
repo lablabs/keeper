@@ -1,4 +1,4 @@
-{{- range $k, $v := .Values.reservation.map }}
+{{- range $k, $v := .Values.reservation.placeholders }}
 ---
 apiVersion: apps/v1
 kind: Deployment
