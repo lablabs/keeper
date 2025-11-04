@@ -81,10 +81,10 @@ overprovisioning:
 | reservation.imagePullPolicy | string | `"Always"` | Reservation image pull policy |
 | reservation.placeholders | object | `{}` | Map of reservation placeholder deployments |
 | reservation.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
-| schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"ghcr.io/lablabs/kubectl:latest","imagePullPolicy":"Always","resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule |
+| schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"registry.k8s.io/kubectl:v1.33.5","imagePullPolicy":"Always","resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule |
 | schedule.concurrencyPolicy | string | `"Replace"` | Concurrency policy https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#concurrency-policy |
 | schedule.failedJobsHistoryLimit | int | `1` | Number of failed Jobs to keep |
-| schedule.image | string | `"ghcr.io/lablabs/kubectl:latest"` | Schedule image configuration |
+| schedule.image | string | `"registry.k8s.io/kubectl:v1.33.5"` | Schedule image configuration |
 | schedule.imagePullPolicy | string | `"Always"` | Schedule image imagePullPolicy |
 | schedule.resources | object | `{"requests":{"cpu":"10m","memory":"32Mi"}}` | Schedule resources |
 | schedule.resources.requests | object | `{"cpu":"10m","memory":"32Mi"}` | Schedule resource requests |

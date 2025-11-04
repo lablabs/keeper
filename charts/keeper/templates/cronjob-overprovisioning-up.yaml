@@ -35,11 +35,11 @@ spec:
             imagePullPolicy: {{ $.Values.schedule.imagePullPolicy }}
             securityContext:
               {{- toYaml $.Values.schedule.securityContext | nindent 14 }}
-            command:
-              - /bin/sh
-              - -c
             args:
-              - kubectl scale --replicas={{ $v.schedule.up.replicas }} deployment/{{ include "keeper.fullname" $ }}-op-{{ $k }} --namespace {{ $.Release.Namespace }}
+              - scale
+              - --replicas={{ $v.schedule.up.replicas }}
+              - deployment/{{ include "keeper.fullname" $ }}-op-{{ $k }}
+              - --namespace={{ $.Release.Namespace }}
             resources:
               {{- toYaml $.Values.schedule.resources | nindent 14 }}
           restartPolicy: OnFailure

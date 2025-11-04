@@ -81,7 +81,7 @@ overprovisioning:
 # -- Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule
 schedule:
    # -- Schedule image configuration
-  image: ghcr.io/lablabs/kubectl:latest
+  image: registry.k8s.io/kubectl:v1.33.5
   # -- Schedule image imagePullPolicy
   imagePullPolicy: Always
   # -- Schedule resources
