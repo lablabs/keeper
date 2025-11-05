@@ -1,4 +1,4 @@
-{{- if and .Values.overprovisioning.enabled .Values.overprovisioning.priorityClass.create }}
+{{- if and .Values.overprovisioning.enabled .Values.overprovisioning.priorityClass.create (not .Values.overprovisioning.priorityClassOverride) }}
 apiVersion: scheduling.k8s.io/v1
 description: Overprovisioning low-priority priority class
 kind: PriorityClass

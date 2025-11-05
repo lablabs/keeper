@@ -72,7 +72,7 @@ overprovisioning:
 | overprovisioning.priorityClass | object | `{"create":true,"value":"-1000000"}` | Overprovisioning PriorityClass configuration |
 | overprovisioning.priorityClass.create | bool | `true` | Whether to create overprovisioning PriorityClass |
 | overprovisioning.priorityClass.value | string | `"-1000000"` | Overprovisioning PriorityClass priority |
-| overprovisioning.priorityClassOverride | string | `""` | Overprovisioning PriorityClass name, set to use instead of PriorityClass created via overprovisioning.priorityClass |
+| overprovisioning.priorityClassOverride | string | `""` | Overprovisioning PriorityClass name, set to use the provided PriorityClass instead of PriorityClass created via overprovisioning.priorityClass. If set, PriorityClass won't be created even if .priorityClass.create is true |
 | overprovisioning.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
 | podLabels | object | `{}` | Pod labels, ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/ |
 | reservation | object | `{"enabled":true,"image":"registry.k8s.io/pause:3.10.1","imagePullPolicy":"Always","placeholders":{},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}}` | Reservation configuration |
@@ -81,7 +81,7 @@ overprovisioning:
 | reservation.imagePullPolicy | string | `"Always"` | Reservation image pull policy |
 | reservation.placeholders | object | `{}` | Map of reservation placeholder deployments |
 | reservation.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false}` | Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod |
-| schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"registry.k8s.io/kubectl:v1.33.5","imagePullPolicy":"Always","resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.deployments[].schedule and .Values.overprovisioning.deployments[].schedule |
+| schedule | object | `{"concurrencyPolicy":"Replace","failedJobsHistoryLimit":1,"image":"registry.k8s.io/kubectl:v1.33.5","imagePullPolicy":"Always","resources":{"requests":{"cpu":"10m","memory":"32Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false},"successfulJobsHistoryLimit":1,"suspend":false}` | Schedule default values. Individual schedules are set in .Values.reservation.placeholders.PLACEHOLDER.schedule and .Values.overprovisioning.placeholders.PLACEHOLDER.schedule |
 | schedule.concurrencyPolicy | string | `"Replace"` | Concurrency policy https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#concurrency-policy |
 | schedule.failedJobsHistoryLimit | int | `1` | Number of failed Jobs to keep |
 | schedule.image | string | `"registry.k8s.io/kubectl:v1.33.5"` | Schedule image configuration |
