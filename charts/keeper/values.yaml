@@ -1,0 +1,118 @@
+# -- String to partially override app.fullname template (will maintain the release name)
+nameOverride: ""
+# -- String to fully override app.fullname template
+fullnameOverride: ""
+
+# -- Pod labels, ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+# -- Common labels for all resources, ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+commonLabels: {}
+
+# -- Reservation configuration
+reservation:
+  # -- Whether reservation is enabled
+  enabled: true
+  # -- Reservation image configuration
+  image: registry.k8s.io/pause:3.10.1  # latest doesn't work on arm
+  # -- Reservation image pull policy
+  imagePullPolicy: Always
+  # -- Map of reservation placeholder deployments
+  placeholders: {}
+#    default:
+#      replicas: 1
+#      nodeSelector: |
+#        node.kubernetes.io/instance-type: c5d.xlarge
+#      schedule:
+#        timeZone: Etc/UTC
+#        up:
+#          cron: "0 8 * * 1-5"
+#          replicas: 1
+#        down:
+#          cron: "0 17 * * 1-5"
+#          replicas: 0
+  # -- Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+# -- Overprovisioning configuration
+overprovisioning:
+  # -- Whether overprovisioning is enabled
+  enabled: true
+  # -- Overprovisioning PriorityClass configuration
+  priorityClass:
+    # -- Whether to create overprovisioning PriorityClass
+    create: true
+    # -- Overprovisioning PriorityClass priority
+    value: "-1000000"
+  # -- Overprovisioning PriorityClass name, set to use the provided PriorityClass instead of PriorityClass created via overprovisioning.priorityClass. If set, PriorityClass won't be created even if .priorityClass.create is true
+  priorityClassOverride: ""
+  # -- Map of overprovisioning placeholder deployments
+  placeholders: {}
+#    default:
+#      replicas: 1
+#      cpu: 100m
+#      memory: 500Mi
+#      nodeSelector: |
+#        node: label
+#      schedule:
+#        timeZone: Etc/UTC
+#        up:
+#          cron: "0 8 * * 1-5"
+#          replicas: 1
+#        down:
+#          cron: "0 17 * * 1-5"
+#          replicas: 0
+  # -- Overprovisioning image configuration
+  image: registry.k8s.io/pause:3.10.1 # latest doesn't work on ARM
+  # -- Overprovisioning imagePullPolicy configuration
+  imagePullPolicy: Always
+  # -- Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+# -- Schedule default values. Individual schedules are set in .Values.reservation.placeholders.PLACEHOLDER.schedule and .Values.overprovisioning.placeholders.PLACEHOLDER.schedule
+schedule:
+   # -- Schedule image configuration
+  image: registry.k8s.io/kubectl:v1.33.5
+  # -- Schedule image imagePullPolicy
+  imagePullPolicy: Always
+  # -- Schedule resources
+  resources:
+    # -- Schedule resource requests
+    requests:
+      # -- Schedule cpu request
+      cpu: 10m
+      # -- Schedule memory request
+      memory: 32Mi
+  # -- Number of successful Jobs to keep
+  successfulJobsHistoryLimit: 1
+  # -- Number of failed Jobs to keep
+  failedJobsHistoryLimit: 1
+  # -- Concurrency policy https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#concurrency-policy
+  concurrencyPolicy: Replace
+  # -- Set to true to suspend the CronJob
+  suspend: false
+  # -- Container Security Context, ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+# -- Service Account, ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+serviceAccount:
+  # -- Specifies whether a ServiceAccount should be created
+  create: true
+  # -- Annotations for service account. Evaluated as a template. Only used if `create` is `true`.
+  annotations: {}
+  # -- Name of the service account to use. If not set and create is true, a name is generated using the fullname template.
+  name: ""

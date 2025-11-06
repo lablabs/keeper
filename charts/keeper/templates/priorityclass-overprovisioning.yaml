@@ -1,0 +1,11 @@
+{{- if and .Values.overprovisioning.enabled .Values.overprovisioning.priorityClass.create (not .Values.overprovisioning.priorityClassOverride) }}
+apiVersion: scheduling.k8s.io/v1
+description: Overprovisioning low-priority priority class
+kind: PriorityClass
+metadata:
+  name: {{ include "keeper.fullname" . }}-op
+  labels:
+    {{- include "keeper.overprovisioning.labels" $ | nindent 4 }}
+preemptionPolicy: PreemptLowerPriority
+value: {{ .Values.overprovisioning.priorityClass.value }}
+{{- end }}

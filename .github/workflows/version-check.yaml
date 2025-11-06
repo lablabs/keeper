@@ -1,0 +1,60 @@
+name: Version check
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-collector:
+    uses: ./.github/workflows/metadata-collector.yaml
+
+  version-check:
+    runs-on: ubuntu-24.04
+    needs: [metadata-collector]
+    strategy:
+      fail-fast: false
+      matrix:
+        chart: ${{ fromJSON(needs.metadata-collector.outputs.charts) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true # needed for private repositories
+
+      - name: Set up ORAS
+        uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1.2.4
+
+      - name: Check if chart version exists
+        run: |
+          CHART_VERSION=$(yq -r '.version' charts/${CHART_NAME}/Chart.yaml)
+          echo "${{ secrets.GITHUB_TOKEN }}" | oras login ghcr.io --username ${GITHUB_ACTOR} --password-stdin
+
+          if oras manifest fetch ghcr.io/${REPOSITORY_NAME}/${CHART_NAME}:${CHART_VERSION} >/dev/null 2>&1; then
+            echo "Error: Chart '${CHART_NAME}' version '${CHART_VERSION}' already exists in the registry. Increment the version in Chart.yaml and push again."
+            oras logout ghcr.io
+            exit 1
+          else
+            oras logout ghcr.io
+          fi
+        env:
+          REPOSITORY_NAME: ${{ github.repository }}
+          CHART_NAME: ${{ matrix.chart }}
+
+      - name: Check if tag matches the chart name and version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          CHART_VERSION=$(yq -r '.version' charts/${CHART_NAME}/Chart.yaml)
+          TAG_REF="${GITHUB_REF#refs/tags/}"
+          EXPECTED_TAG="${CHART_NAME}-${CHART_VERSION}"
+
+          if [ "$TAG_REF" != "$EXPECTED_TAG" ]; then
+            echo "Error: Pushed tag ($TAG_REF) does not match expected format."
+            echo "Expected: $EXPECTED_TAG Received: $TAG_REF"
+            exit 1
+          else
+            echo "Pushed tag ($TAG_REF) matches expected format: $EXPECTED_TAG"
+          fi
+        env:
+          CHART_NAME: ${{ matrix.chart }}

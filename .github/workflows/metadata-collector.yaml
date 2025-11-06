@@ -1,0 +1,42 @@
+name: Metadata collector
+
+on:
+  workflow_call:
+    outputs:
+      charts:
+        description: "List of changed charts within the repository"
+        value: ${{ jobs.chart-list.outputs.charts }}
+
+permissions:
+  contents: read
+
+jobs:
+  chart-list:
+    runs-on: ubuntu-24.04
+    outputs:
+      charts: ${{ steps.changed-charts.outputs.all_changed_files || steps.changed-charts-tag.outputs.all_changed_files }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2 # pragma: allowlist secret
+        with:
+          persist-credentials: true # needed for private repositories
+
+      - name: Get changed charts without tag
+        uses: step-security/changed-files@95b56dadb92a30ca9036f16423fd3c088a71ee94 # v46.0.5
+        id: changed-charts
+        if: github.ref_type != 'tag'
+        with:
+          dir_names: true
+          dir_names_max_depth: 1
+          path: charts
+          matrix: true
+
+      - name: Get changed chart using tag
+        if: github.ref_type == 'tag'
+        id: changed-charts-tag
+        run: |
+          # Extract tag name which triggered this workflow: refs/tags/my-chart-1.2.3 -> my-chart-1.2.3
+          TAG_REF="${GITHUB_REF#refs/tags/}"
+          # Extract chart name from tag name by removing the version part: my-chart-1.2.3 -> my-chart
+          CHART_NAME="${TAG_REF%%-[0-9]*}"
+          echo "all_changed_files=[\"${CHART_NAME}\"]" >> $GITHUB_OUTPUT
