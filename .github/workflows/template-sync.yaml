@@ -8,7 +8,7 @@ on:
 permissions: {}
 
 jobs:
-  universal-addon:
+  helm-chart-template:
     if: github.repository != 'lablabs/helm-chart-template'
     runs-on: ubuntu-24.04
     steps:
@@ -18,7 +18,7 @@ jobs:
         with:
           app-id: ${{ secrets.LARA_TEMPLATE_SYNC_APP_ID }}
           private-key: ${{ secrets.LARA_TEMPLATE_SYNC_APP_PRIVATE_KEY }}
-          repositories: ${{ github.event.repository.name }}
+          repositories: helm-chart-template,${{ github.event.repository.name }}
           owner: ${{ github.repository_owner }}
 
       - name: Checkout
@@ -27,7 +27,7 @@ jobs:
           token: ${{ steps.template-sync-app-token.outputs.token }} # needed for private repositories
           persist-credentials: false
 
-      - name: Sync universal-addon template
+      - name: Sync helm-chart-template template
         uses: AndreasAugustin/actions-template-sync@8ec19a5f2721ffb81ff809aa340ddf75e6a85ea6 # v2.5.2
         with:
           source_gh_token: ${{ steps.template-sync-app-token.outputs.token }}
