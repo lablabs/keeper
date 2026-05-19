@@ -24,7 +24,7 @@ jobs:
         chart: ${{ fromJSON(needs.metadata-collector.outputs.charts) }}
     steps:
       - name: GitHub Slug Action
-        uses: rlespinasse/github-slug-action@955b5ba4560860f8a633bd24190941f16016e42c # v5.1.0
+        uses: rlespinasse/github-slug-action@9e7def61550737ba68c62d34a32dd31792e3f429 # v5.5.0
 
       - name: Cleanup Helm chart
         run: |

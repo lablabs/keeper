@@ -17,7 +17,7 @@ jobs:
       charts: ${{ steps.changed-charts.outputs.all_changed_files || steps.changed-charts-tag.outputs.all_changed_files }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2 # pragma: allowlist secret
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1 # pragma: allowlist secret
         with:
           persist-credentials: true # needed for private repositories
 
